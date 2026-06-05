@@ -19,7 +19,7 @@ public class MovementSystem : MonoBehaviour
 
     public void ShowRange(Unit selectedUnit, HexGrid hexGrid)
     {
-        CalcualteRange(selectedUnit, hexGrid);
+        CalculateRange(selectedUnit, hexGrid);
 
         Vector3Int unitPos = hexGrid.GetClosestHex(selectedUnit.transform.position);
 
@@ -31,7 +31,7 @@ public class MovementSystem : MonoBehaviour
         }
     }
 
-    public void CalcualteRange(Unit selectedUnit, HexGrid hexGrid)
+    public void CalculateRange(Unit selectedUnit, HexGrid hexGrid)
     {
         movementRange = GraphSearch.BFSGetRange(hexGrid, hexGrid.GetClosestHex(selectedUnit.transform.position), selectedUnit.MovementPoints);
 
@@ -63,6 +63,6 @@ public class MovementSystem : MonoBehaviour
 
     public bool IsHexInRange(Vector3Int hexPosition)
     {
-        return movementRange.İsHexPositionInRange(hexPosition);
+        return movementRange.IsHexPositionInRange(hexPosition);
     }
 }

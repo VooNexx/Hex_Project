@@ -9,7 +9,7 @@ public class HexGrid : MonoBehaviour
 
     private void Start()
     {
-        foreach (Hex hex in FindObjectsOfType<Hex>())
+        foreach (Hex hex in FindObjectsByType<Hex>(FindObjectsSortMode.None))
         {
             hexTileDict[hex.HexCoords] = hex;
         }

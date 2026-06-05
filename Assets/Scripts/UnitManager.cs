@@ -49,7 +49,7 @@ public class UnitManager : MonoBehaviour
 
         Hex selectedHex = hexGO.GetComponent<Hex>();
 
-        if (HanleHexOutOfRange(selectedHex.HexCoords) || HandleSelectedHexIsUnitHex(selectedHex.HexCoords))
+        if (HandleHexOutOfRange(selectedHex.HexCoords) || HandleSelectedHexIsUnitHex(selectedHex.HexCoords))
             return;
 
         HandleTargetHexSelected(selectedHex);
@@ -104,7 +104,7 @@ public class UnitManager : MonoBehaviour
         return false;
     }
 
-    private bool HanleHexOutOfRange(Vector3Int hexPosition)
+    private bool HandleHexOutOfRange(Vector3Int hexPosition)
     {
         if (movementSystem.IsHexInRange(hexPosition) == false)
         {

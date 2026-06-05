@@ -75,7 +75,7 @@ public struct BFSResult
         return GraphSearch.GeneratePathBFS(destination, visitedNodesDict);
     }
 
-    public bool İsHexPositionInRange(Vector3Int position)
+    public bool IsHexPositionInRange(Vector3Int position)
     {
         return visitedNodesDict.ContainsKey(position);
     }

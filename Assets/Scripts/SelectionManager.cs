@@ -46,7 +46,7 @@ public class SelectionManager : MonoBehaviour
         RaycastHit hit;
         Ray ray = mainCamera.ScreenPointToRay(mousePosition);
 
-        if (Physics.Raycast(ray, out hit, selectionMask))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, selectionMask))
         {
             result = hit.collider.gameObject;
             return true;
