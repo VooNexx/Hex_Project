@@ -1,11 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
+/// <summary>
+/// Fare girişini algılar ve SelectionManager'a iletir.
+/// SelectionManager'ı otomatik olarak bulur — Inspector'da bağlantıya gerek yok.
+/// </summary>
 public class PlayerInput : MonoBehaviour
 {
-    public UnityEvent<Vector3> PointerClick;
+    private SelectionManager selectionManager;
+
+    private void Start()
+    {
+        selectionManager = FindAnyObjectByType<SelectionManager>();
+
+        if (selectionManager == null)
+            Debug.LogError("[PlayerInput] SelectionManager bulunamadı!");
+    }
 
     void Update()
     {
@@ -14,10 +25,10 @@ public class PlayerInput : MonoBehaviour
 
     private void DetectMouseClick()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && selectionManager != null)
         {
             Vector3 mousePos = Input.mousePosition;
-            PointerClick? .Invoke(mousePos);
+            selectionManager.HandleClick(mousePos);
         }
     }
 }

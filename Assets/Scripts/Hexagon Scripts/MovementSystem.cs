@@ -14,30 +14,32 @@ public class MovementSystem : MonoBehaviour
         {
             hexGrid.GetTileAt(hexPosition).DisableHighlight();
         }
-        movementRange = new BFSResult(); // Bu satırda da "new" eksikti
+        movementRange = new BFSResult();
     }
 
-    public void ShowRange(Unit selectedUnit, HexGrid hexGrid)
+    /// <summary> Seçili geminin hareket menzilini hesaplar ve gösterir </summary>
+    public void ShowRange(Ship selectedShip, HexGrid hexGrid)
     {
-        CalculateRange(selectedUnit, hexGrid);
+        CalculateRange(selectedShip, hexGrid);
 
-        Vector3Int unitPos = hexGrid.GetClosestHex(selectedUnit.transform.position);
+        Vector3Int shipPos = hexGrid.GetClosestHex(selectedShip.transform.position);
 
         foreach (Vector3Int hexPosition in movementRange.GetRangePositions())
         {
-            if (unitPos == hexPosition)
+            if (shipPos == hexPosition)
                 continue;
             hexGrid.GetTileAt(hexPosition).EnableHighlight();
         }
     }
 
-    public void CalculateRange(Unit selectedUnit, HexGrid hexGrid)
+    /// <summary> Hareket menzilini hesaplar (BFS) </summary>
+    public void CalculateRange(Ship selectedShip, HexGrid hexGrid)
     {
-        movementRange = GraphSearch.BFSGetRange(hexGrid, hexGrid.GetClosestHex(selectedUnit.transform.position), selectedUnit.MovementPoints);
-
+        movementRange = GraphSearch.BFSGetRange(hexGrid, hexGrid.GetClosestHex(selectedShip.transform.position), selectedShip.MovementPoints);
     }
 
-    public void ShowRange(Vector3Int selectedHexPosition, HexGrid hexGrid)
+    /// <summary> Seçili hex'e giden yolu vurgular </summary>
+    public void ShowPath(Vector3Int selectedHexPosition, HexGrid hexGrid)
     {
         if (movementRange.GetRangePositions().Contains(selectedHexPosition))
         {
@@ -54,11 +56,11 @@ public class MovementSystem : MonoBehaviour
         }
     }
 
-    public void MoveUnit(Unit selectedUnit, HexGrid hexGrid)
+    /// <summary> Gemiyi hesaplanan yol üzerinden hareket ettirir </summary>
+    public bool MoveShip(Ship selectedShip, HexGrid hexGrid)
     {
-        Debug.Log("Moving Unit " + selectedUnit.name);
-        selectedUnit.MoveThroughPath(currentPath.Select(pos => hexGrid.GetTileAt(pos).transform.position).ToList());
-
+        Debug.Log("Moving Ship " + selectedShip.name);
+        return selectedShip.MoveThroughPath(currentPath.Select(pos => hexGrid.GetTileAt(pos).transform.position).ToList());
     }
 
     public bool IsHexInRange(Vector3Int hexPosition)

@@ -70,16 +70,22 @@ public struct BFSResult
 
     public List<Vector3Int> GetPathTo(Vector3Int destination)
     {
-        if (visitedNodesDict.ContainsKey(destination) == false)
+        if (visitedNodesDict == null || visitedNodesDict.ContainsKey(destination) == false)
             return new List<Vector3Int>();
         return GraphSearch.GeneratePathBFS(destination, visitedNodesDict);
     }
 
     public bool IsHexPositionInRange(Vector3Int position)
     {
+        if (visitedNodesDict == null)
+            return false;
         return visitedNodesDict.ContainsKey(position);
     }
 
     public IEnumerable<Vector3Int> GetRangePositions()
-        => visitedNodesDict.Keys;
+    {
+        if (visitedNodesDict == null)
+            return Enumerable.Empty<Vector3Int>();
+        return visitedNodesDict.Keys;
+    }
 }
