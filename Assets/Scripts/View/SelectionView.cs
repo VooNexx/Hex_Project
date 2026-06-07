@@ -198,17 +198,10 @@ public class SelectionView : MonoBehaviour
         if (shipView != null)
             shipView.Select();
 
-        // Hareket menzilini göster (lokal hesaplama)
+        // Hareket menzilini göster (lokal hesaplama — NetworkShip overload)
         if (ship.CanMove && movementSystem != null)
         {
-            // MovementSystem şu an Ship tipini bekliyor — geçici olarak
-            // mevcut Ship component'ı üzerinden de çalışabilir.
-            // TODO: MovementSystem'ı NetworkShip ile çalışacak şekilde güncelle
-            Ship legacyShip = ship.GetComponent<Ship>();
-            if (legacyShip != null)
-            {
-                movementSystem.ShowRange(legacyShip, hexGrid);
-            }
+            movementSystem.ShowRange(ship, hexGrid);
         }
     }
 
