@@ -63,29 +63,3 @@ public class GraphSearch
     }
 
 }
-
-public struct BFSResult
-{
-    public Dictionary<Vector3Int, Vector3Int?> visitedNodesDict;
-
-    public List<Vector3Int> GetPathTo(Vector3Int destination)
-    {
-        if (visitedNodesDict == null || visitedNodesDict.ContainsKey(destination) == false)
-            return new List<Vector3Int>();
-        return GraphSearch.GeneratePathBFS(destination, visitedNodesDict);
-    }
-
-    public bool IsHexPositionInRange(Vector3Int position)
-    {
-        if (visitedNodesDict == null)
-            return false;
-        return visitedNodesDict.ContainsKey(position);
-    }
-
-    public IEnumerable<Vector3Int> GetRangePositions()
-    {
-        if (visitedNodesDict == null)
-            return Enumerable.Empty<Vector3Int>();
-        return visitedNodesDict.Keys;
-    }
-}
