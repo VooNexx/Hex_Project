@@ -6947,6 +6947,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_P1
       objectReference: {fileID: 0}
+    - target: {fileID: 4485717380184914628, guid: 0dd5e817cf2c0441ab8b0acf6dec3a67, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 4726771865761868935, guid: 0dd5e817cf2c0441ab8b0acf6dec3a67, type: 3}
       propertyPath: SortKey
       value: 878009248
