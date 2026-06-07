@@ -14,6 +14,9 @@ GameObject:
   - component: {fileID: 704874826982658974}
   - component: {fileID: 2530995745816146586}
   - component: {fileID: 6726821699873011428}
+  - component: {fileID: 4726771865761868935}
+  - component: {fileID: 6675578845579205251}
+  - component: {fileID: 4922829490009967344}
   m_Layer: 7
   m_Name: Ship_Base
   m_TagString: Untagged
@@ -147,3 +150,61 @@ MonoBehaviour:
   actionState: 0
   movementDurationOverride: 0
   rotationDurationOverride: 0
+--- !u!114 &4726771865761868935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4485717380184914628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
+  SortKey: 2766607615
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 6675578845579205251}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &6675578845579205251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4485717380184914628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b2160142ddd9432680f22443ec1302d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NetworkShip
+  _CurrentHP: 0
+  _CurrentXP: 0
+  _Level: 0
+  _ActionState: 0
+  _HexPosition: {x: 0, y: 0, z: 0}
+  _ShipTypeIndex: 0
+  shipData: {fileID: 11400000, guid: a55dcb6de34474cb895c923b0a17894e, type: 2}
+  allShipTypes:
+  - {fileID: 11400000, guid: a55dcb6de34474cb895c923b0a17894e, type: 2}
+  - {fileID: 11400000, guid: babd9d1c43d084f7bbf0e3077044008d, type: 2}
+  - {fileID: 11400000, guid: ec0a9a8ee02e94947b83ab6ce8b0ea61, type: 2}
+  - {fileID: 11400000, guid: fbd3f8fdab4e044f7be2fe5063c5e8ce, type: 2}
+  - {fileID: 11400000, guid: 98b3d3e326d5145e0bba991c7138eb27, type: 2}
+--- !u!114 &4922829490009967344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4485717380184914628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81413785df1e540bd9543981721db5de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShipView
+  movementDuration: 1
+  rotationDuration: 0.3
