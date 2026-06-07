@@ -167,6 +167,8 @@ public class NetworkShip : NetworkBehaviour
     /// </summary>
     public void ServerMove(Vector3Int targetHex, List<Vector3Int> path, HexGrid hexGrid)
     {
+        Debug.Log($"[NetworkShip] ServerMove çağrıldı: {name} → {targetHex}, Path uzunluğu: {path.Count}");
+
         if (!Object.HasStateAuthority)
         {
             Debug.LogWarning("[NetworkShip] ServerMove sadece Host tarafından çağrılabilir!");
@@ -286,11 +288,13 @@ public class NetworkShip : NetworkBehaviour
         }
 
         // Sıra kontrolü
-        if (NetworkGameManager.Instance != null && !NetworkGameManager.Instance.IsPlayerTurn(info.Source))
+        if (NetworkGameManager.Instance != null && !NetworkGameManager.Instance.IsPlayerTurn(sender))
         {
-            Debug.LogWarning($"[NetworkShip] {info.Source} — şu an sırası değil!");
+            Debug.LogWarning($"[NetworkShip] {sender} — şu an sırası değil! Active: {NetworkGameManager.Instance.ActivePlayerRef}");
             return;
         }
+
+        Debug.Log($"[NetworkShip] Tüm kontroller geçti! Hareket başlatılıyor → {targetHex}");
 
         // HexGrid referansı al
         var hexGrid = NetworkGameManager.Instance?.HexGrid;

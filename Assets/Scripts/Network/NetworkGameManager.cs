@@ -121,8 +121,8 @@ public class NetworkGameManager : NetworkBehaviour
         // Sadece Host oyun mantığını çalıştırır
         if (!Object.HasStateAuthority) return;
 
-        // Zamanlayıcı kontrolü
-        if (CurrentPhase == GamePhase.Combat && turnDuration > 0 && TurnTimer.Expired(Runner))
+        // Zamanlayıcı kontrolü (tek oyuncu testinde atla)
+        if (!singlePlayerTest && CurrentPhase == GamePhase.Combat && turnDuration > 0 && TurnTimer.Expired(Runner))
         {
             Debug.Log($"[NetworkGameManager] Süre doldu! Oyuncu: {ActivePlayerId}");
             ServerEndTurn();
