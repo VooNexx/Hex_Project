@@ -49,6 +49,10 @@ public class NetworkGameManager : NetworkBehaviour
     [Tooltip("Bir oyuncunun tur süresi (saniye). 0 = sınırsız süre.")]
     [SerializeField] private float turnDuration = 60f;
 
+    [Header("Test")]
+    [Tooltip("Tek oyuncu ile test modu — 2. oyuncuyu beklemeden oyunu başlatır.")]
+    [SerializeField] private bool singlePlayerTest = true;
+
     [Header("Referanslar")]
     [SerializeField] private HexGrid hexGrid;
 
@@ -151,6 +155,14 @@ public class NetworkGameManager : NetworkBehaviour
         {
             Player1Ref = player;
             Debug.Log($"[NetworkGameManager] Player1 bağlandı: {player}");
+
+            // Tek oyuncu test modu: Player1 bağlandığında direkt başlat
+            if (singlePlayerTest)
+            {
+                Debug.Log("[NetworkGameManager] Tek oyuncu test modu — oyun hemen başlatılıyor.");
+                AllPlayersReady = true;
+                ServerStartGame();
+            }
         }
         else if (Player2Ref == default)
         {

@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 6326350852959546636}
   - component: {fileID: 704874826982658974}
   - component: {fileID: 2530995745816146586}
-  - component: {fileID: 6726821699873011428}
   - component: {fileID: 4726771865761868935}
   - component: {fileID: 6675578845579205251}
   - component: {fileID: 4922829490009967344}
@@ -130,26 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   glowMaterial: {fileID: 2100000, guid: 44b4ddddab60a434faf48eeaf94a8763, type: 2}
---- !u!114 &6726821699873011428
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4485717380184914628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d22e8baacd9f14eb59ecde88789340e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Ship
-  shipData: {fileID: 0}
-  ownerPlayerId: 1
-  currentHP: 0
-  currentXP: 0
-  level: 1
-  actionState: 0
-  movementDurationOverride: 0
-  rotationDurationOverride: 0
+
 --- !u!114 &4726771865761868935
 MonoBehaviour:
   m_ObjectHideFlags: 0

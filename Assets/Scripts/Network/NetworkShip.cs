@@ -121,6 +121,18 @@ public class NetworkShip : NetworkBehaviour
             Level = 1;
             CurrentXP = 0;
             ActionState = ShipActionState.Idle;
+
+            // OwnerPlayer henüz atanmamışsa, Player1'e ata (test modu için)
+            if (OwnerPlayer == default && NetworkGameManager.Instance != null)
+            {
+                OwnerPlayer = NetworkGameManager.Instance.Player1Ref;
+            }
+        }
+
+        // NetworkGameManager'a kaydet
+        if (NetworkGameManager.Instance != null)
+        {
+            NetworkGameManager.Instance.RegisterShip(this);
         }
 
         Debug.Log($"[NetworkShip] {name} spawn edildi. Owner: {OwnerPlayer}, HP: {CurrentHP}/{MaxHP}");
@@ -264,8 +276,53 @@ public class NetworkShip : NetworkBehaviour
             return;
         }
 
-        // TODO: Tur kontrolü (sırası mı?), BFS menzil kontrolü
-        // Şimdilik direkt kabul ediyoruz — NetworkGameManager entegrasyonunda eklenecek
+        // Hareket edebilir mi?
+        if (!CanMove)
+        {
+            Debug.LogWarning($"[NetworkShip] {name} hareket edemez! Durum: {ActionState}");
+            return;
+        }
+
+        // Sıra kontrolü
+        if (NetworkGameManager.Instance != null && !NetworkGameManager.Instance.IsPlayerTurn(info.Source))
+        {
+            Debug.LogWarning($"[NetworkShip] {info.Source} — şu an sırası değil!");
+            return;
+        }
+
+        // HexGrid referansı al
+        var hexGrid = NetworkGameManager.Instance?.HexGrid;
+        if (hexGrid == null)
+        {
+            hexGrid = UnityEngine.Object.FindAnyObjectByType<HexGrid>();
+        }
+
+        if (hexGrid == null)
+        {
+            Debug.LogError("[NetworkShip] HexGrid bulunamadı!");
+            return;
+        }
+
+        // BFS menzil kontrolü
+        Vector3Int currentPos = hexGrid.GetClosestHex(transform.position);
+        BFSResult bfs = GraphSearch.BFSGetRange(hexGrid, currentPos, MovementPoints);
+
+        if (!bfs.IsHexPositionInRange(targetHex))
+        {
+            Debug.LogWarning($"[NetworkShip] Hedef hex menzil dışında! {targetHex}");
+            return;
+        }
+
+        // Yolu al
+        List<Vector3Int> path = bfs.GetPathTo(targetHex);
+        if (path == null || path.Count == 0)
+        {
+            Debug.LogWarning($"[NetworkShip] Hedefe yol bulunamadı! {targetHex}");
+            return;
+        }
+
+        // Host onayladı — hareketi gerçekleştir
+        ServerMove(targetHex, path, hexGrid);
     }
 
     /// <summary>
