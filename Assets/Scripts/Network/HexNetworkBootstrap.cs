@@ -83,11 +83,11 @@ public class HexNetworkBootstrap : MonoBehaviour, INetworkRunnerCallbacks
 
         if (result.Ok)
         {
-            Debug.Log($"[HexNetworkBootstrap] Oyun başarıyla başlatıldı: {mode}");
+            Debug.Log($"[FusionBootstrap] Oyun başarıyla başlatıldı: {mode}");
         }
         else
         {
-            Debug.LogError($"[HexNetworkBootstrap] Oyun başlatılamadı: {result.ShutdownReason}");
+            Debug.LogError($"[FusionBootstrap] Oyun başlatılamadı: {result.ShutdownReason}");
             Destroy(runnerObject);
             _runner = null;
         }
@@ -98,11 +98,23 @@ public class HexNetworkBootstrap : MonoBehaviour, INetworkRunnerCallbacks
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
         Debug.Log($"[HexNetworkBootstrap] Oyuncu katıldı: {player}");
+
+        // NetworkGameManager'a oyuncu katılımını bildir
+        if (NetworkGameManager.Instance != null)
+        {
+            NetworkGameManager.Instance.ServerPlayerJoined(player);
+        }
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
         Debug.Log($"[HexNetworkBootstrap] Oyuncu ayrıldı: {player}");
+
+        // NetworkGameManager'a oyuncu ayrılışını bildir
+        if (NetworkGameManager.Instance != null)
+        {
+            NetworkGameManager.Instance.ServerPlayerLeft(player);
+        }
     }
 
     public void OnInput(NetworkRunner runner, NetworkInput input) { }
@@ -111,7 +123,7 @@ public class HexNetworkBootstrap : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
-        Debug.Log($"[HexNetworkBootstrap] Kapatıldı: {shutdownReason}");
+        Debug.Log($"[FusionBootstrap] Kapatıldı: {shutdownReason}");
         if (_runner != null)
         {
             Destroy(_runner.gameObject);
@@ -121,19 +133,19 @@ public class HexNetworkBootstrap : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnConnectedToServer(NetworkRunner runner)
     {
-        Debug.Log("[HexNetworkBootstrap] Sunucuya bağlanıldı.");
+        Debug.Log("[FusionBootstrap] Sunucuya bağlanıldı.");
     }
 
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
     {
-        Debug.Log($"[HexNetworkBootstrap] Sunucu bağlantısı kesildi: {reason}");
+        Debug.Log($"[FusionBootstrap] Sunucu bağlantısı kesildi: {reason}");
     }
 
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) { }
 
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
     {
-        Debug.LogError($"[HexNetworkBootstrap] Bağlantı hatası: {reason}");
+        Debug.LogError($"[FusionBootstrap] Bağlantı hatası: {reason}");
     }
 
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
@@ -150,12 +162,12 @@ public class HexNetworkBootstrap : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnSceneLoadDone(NetworkRunner runner)
     {
-        Debug.Log("[HexNetworkBootstrap] Sahne yüklemesi tamamlandı.");
+        Debug.Log("[FusionBootstrap] Sahne yüklemesi tamamlandı.");
     }
 
     public void OnSceneLoadStart(NetworkRunner runner)
     {
-        Debug.Log("[HexNetworkBootstrap] Sahne yüklemesi başladı.");
+        Debug.Log("[FusionBootstrap] Sahne yüklemesi başladı.");
     }
 
     public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
