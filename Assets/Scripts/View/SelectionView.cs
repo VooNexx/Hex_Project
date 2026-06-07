@@ -47,6 +47,16 @@ public class SelectionView : MonoBehaviour
 
         if (movementSystem == null)
             movementSystem = FindAnyObjectByType<MovementSystem>();
+
+        // selectionMask boşsa otomatik ayarla
+        // Ship_P1 layer 7'de — "Everything" mask'ı kullan ki tüm layer'lara raycast yapsın
+        if (selectionMask == 0)
+        {
+            selectionMask = ~0; // Everything — tüm layer'lar
+            Debug.Log("[SelectionView] selectionMask otomatik ayarlandı: Everything");
+        }
+
+        Debug.Log($"[SelectionView] Başlatıldı. Camera: {mainCamera != null}, HexGrid: {hexGrid != null}, MovementSystem: {movementSystem != null}, SelectionMask: {selectionMask.value}");
     }
 
     private void Update()
@@ -65,20 +75,36 @@ public class SelectionView : MonoBehaviour
     private void HandleClick(Vector3 mousePosition)
     {
         // NetworkGameManager var mı?
-        if (NetworkGameManager.Instance == null) return;
+        if (NetworkGameManager.Instance == null)
+        {
+            Debug.LogWarning("[SelectionView] NetworkGameManager.Instance null! Oyun henüz başlamadı.");
+            return;
+        }
 
         // Benim sıram mı? (Lokal runner üzerinden kontrol)
         var runner = NetworkGameManager.Instance.Runner;
-        if (runner == null) return;
+        if (runner == null)
+        {
+            Debug.LogWarning("[SelectionView] Runner null!");
+            return;
+        }
 
         PlayerRef localPlayer = runner.LocalPlayer;
         if (!NetworkGameManager.Instance.IsPlayerTurn(localPlayer))
+        {
+            Debug.Log($"[SelectionView] Sıra bende değil! LocalPlayer: {localPlayer}, Active: {NetworkGameManager.Instance.ActivePlayerRef}");
             return;
+        }
 
         // Raycast yap
         GameObject hitObject;
         if (!FindTarget(mousePosition, out hitObject))
+        {
+            Debug.Log("[SelectionView] Raycast hiçbir şeye değmedi!");
             return;
+        }
+
+        Debug.Log($"[SelectionView] Raycast isabet: {hitObject.name} (Layer: {hitObject.layer})");
 
         // Ship mi Terrain mi?
         NetworkShip shipComponent = hitObject.GetComponent<NetworkShip>();
@@ -100,7 +126,10 @@ public class SelectionView : MonoBehaviour
     {
         // Sadece kendi gemilerimi seçebilirim
         if (!ship.IsOwnedBy(localPlayer))
+        {
+            Debug.Log($"[SelectionView] {ship.name} benim gemim değil! Owner: {ship.OwnerPlayer}, Ben: {localPlayer}");
             return;
+        }
 
         // Aksiyonu tükenmiş gemiyi seçme
         if (!ship.CanAct)

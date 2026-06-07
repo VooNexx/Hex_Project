@@ -217,6 +217,9 @@ public class NetworkGameManager : NetworkBehaviour
         ActivePlayerId = PlayerId.Player1;
         ActivePlayerRef = Player1Ref;
 
+        // Sahnedeki gemilere sahip ata
+        AssignShipOwners();
+
         // Zamanlayıcıyı başlat
         if (turnDuration > 0)
         {
@@ -225,6 +228,24 @@ public class NetworkGameManager : NetworkBehaviour
 
         // Tüm client'lara bildir
         RPC_OnGameStarted();
+    }
+
+    /// <summary> Sahnedeki gemilere OwnerPlayer atar. Tek oyuncu modunda hepsi Player1'e aittir. </summary>
+    private void AssignShipOwners()
+    {
+        var allShips = FindObjectsByType<NetworkShip>(FindObjectsSortMode.None);
+        foreach (var ship in allShips)
+        {
+            if (ship.OwnerPlayer == default)
+            {
+                ship.OwnerPlayer = Player1Ref;
+                Debug.Log($"[NetworkGameManager] {ship.name} → Owner: {Player1Ref}");
+            }
+
+            // _allShips listesine ekle
+            if (!_allShips.Contains(ship))
+                _allShips.Add(ship);
+        }
     }
 
     /// <summary> Sırayı değiştirir. Sadece Host çağırır. </summary>
