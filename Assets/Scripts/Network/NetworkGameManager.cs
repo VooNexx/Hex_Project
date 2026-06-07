@@ -233,7 +233,7 @@ public class NetworkGameManager : NetworkBehaviour
     /// <summary> Sahnedeki gemilere OwnerPlayer atar. Tek oyuncu modunda hepsi Player1'e aittir. </summary>
     private void AssignShipOwners()
     {
-        var allShips = FindObjectsByType<NetworkShip>(FindObjectsSortMode.None);
+        var allShips = FindObjectsByType<NetworkShip>(FindObjectsInactive.Exclude);
         foreach (var ship in allShips)
         {
             if (ship.OwnerPlayer == default)
