@@ -267,12 +267,14 @@ public class NetworkShip : NetworkBehaviour
     public void RPC_RequestMove(Vector3Int targetHex, RpcInfo info = default)
     {
         // Bu kod sadece Host'ta çalışır
-        Debug.Log($"[NetworkShip] Hareket talebi: {info.Source} → {targetHex}");
+        // Host modunda lokal RPC çağrısında info.Source boş gelebilir
+        PlayerRef sender = info.Source == default ? Runner.LocalPlayer : info.Source;
+        Debug.Log($"[NetworkShip] Hareket talebi: {sender} → {targetHex}");
 
         // Güvenlik: Talebi gönderen, geminin sahibi mi?
-        if (info.Source != OwnerPlayer)
+        if (sender != OwnerPlayer)
         {
-            Debug.LogWarning($"[NetworkShip] Yetkisiz hareket talebi! {info.Source} != {OwnerPlayer}");
+            Debug.LogWarning($"[NetworkShip] Yetkisiz hareket talebi! {sender} != {OwnerPlayer}");
             return;
         }
 
