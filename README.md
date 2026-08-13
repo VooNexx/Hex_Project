@@ -38,6 +38,4 @@ Assets/Scripts/Hexagon Scripts/
 
 Built with **Unity [6000.4.8f1]**. Clone the repo, open it through Unity Hub, load `Assets/Scenes/SampleScene.unity` and press Play.
 
-## Credits
 
-Programming by **Yunus Demir** ([@VooNexx](https://github.com/VooNexx)).
